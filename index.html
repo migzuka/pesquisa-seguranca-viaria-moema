@@ -127,7 +127,195 @@
     );
 
     osm.addTo(map);
+// =====================================================
+// ESCOLAS DA ÁREA DE ESTUDO
+// Coordenadas extraídas dos arquivos KMZ do projeto QGIS
+// =====================================================
 
+const escolas = [
+
+    {
+        nome: "AVIVA",
+        descricao: "Berçário e Escola Infantil",
+        lat: -23.6037280606714,
+        lng: -46.65537456029791
+    },
+
+    {
+        nome: "be.Living",
+        descricao: "Ensino Fundamental",
+        lat: -23.60991004133065,
+        lng: -46.65847546305854
+    },
+
+    {
+        nome: "Colégio Augusto Laranja",
+        descricao: "Ensino Fundamental e Médio",
+        lat: -23.6129807682017,
+        lng: -46.66853756098254
+    },
+
+    {
+        nome: "Colégio Ítalo-Brasileiro",
+        descricao: "Ensino Fundamental e Médio",
+        lat: -23.60804143761485,
+        lng: -46.66075710524122
+    },
+
+    {
+        nome: "Colégio Itatiaia",
+        descricao: "Berçário e Educação Infantil",
+        lat: -23.60860742278564,
+        lng: -46.66045158459803
+    },
+
+    {
+        nome: "Colégio Lectus",
+        descricao: "Educação Infantil e Ensino Médio",
+        lat: -23.61314389902763,
+        lng: -46.6621477061035
+    },
+
+    {
+        nome: "Colégio Octagon – Objetivo",
+        descricao: "Ensino Fundamental II",
+        lat: -23.60921303209982,
+        lng: -46.66934061663206
+    },
+
+    {
+        nome: "CONSA – Colégio Francisco Nossa Senhora Aparecida",
+        descricao: "Ensino Infantil e Fundamental",
+        lat: -23.60075913856005,
+        lng: -46.66409164758021
+    },
+
+    {
+        nome: "E. E. Cesar Martinez",
+        descricao: "Ensino Fundamental",
+        lat: -23.60135101962355,
+        lng: -46.65803780575516
+    },
+
+    {
+        nome: "E. E. Professor Napoleão de Carvalho Freire",
+        descricao: "Ensino Fundamental e Médio",
+        lat: -23.60935391665141,
+        lng: -46.67247914709958
+    },
+
+    {
+        nome: "EMEF Prof. João Carlos da Silva Borges",
+        descricao: "Ensino Fundamental",
+        lat: -23.61570978160366,
+        lng: -46.66290486249515
+    },
+
+    {
+        nome: "EMEI Dona Anita Costa",
+        descricao: "Educação Infantil",
+        lat: -23.60178601991349,
+        lng: -46.6579872597279
+    },
+
+    {
+        nome: "EMEI Lucy Garcia Salgado",
+        descricao: "Educação Infantil",
+        lat: -23.61615578220294,
+        lng: -46.66236774388901
+    },
+
+    {
+        nome: "EMEI Prof. Inácio Henrique Romero",
+        descricao: "Educação Infantil",
+        lat: -23.60945553998751,
+        lng: -46.67147218778467
+    },
+
+    {
+        nome: "Escola Carneiro",
+        descricao: "Escola de Artes",
+        lat: -23.60735327640313,
+        lng: -46.65651608992828
+    },
+
+    {
+        nome: "Escola Gaivota",
+        descricao: "Pré-escola",
+        lat: -23.60161093924047,
+        lng: -46.66614214483828
+    },
+
+    {
+        nome: "Escola Móbile",
+        descricao: "Educação Infantil",
+        lat: -23.59843479360499,
+        lng: -46.66964221841899
+    },
+
+    {
+        nome: "Escola Morumbi – Colégio Mor",
+        descricao: "Ensino Infantil ao Médio",
+        lat: -23.6089730003107,
+        lng: -46.65730823228701
+    },
+
+    {
+        nome: "Escola Pinguim",
+        descricao: "Berçário e Educação Infantil",
+        lat: -23.60455438702793,
+        lng: -46.67206283192699
+    },
+
+    {
+        nome: "Fadelito Moema",
+        descricao: "Educação Infantil",
+        lat: -23.60219902716726,
+        lng: -46.66921944553429
+    },
+
+    {
+        nome: "Novo Ângulo - Novo Esquema",
+        descricao: "",
+        lat: -23.59957781304925,
+        lng: -46.67281152648513
+    },
+
+    {
+        nome: "Peixinho Vermelho",
+        descricao: "Educação Infantil",
+        lat: -23.60648672044722,
+        lng: -46.67317699050848
+    }
+
+];
+
+
+// =====================================================
+// INSERÇÃO DAS ESCOLAS NO MAPA
+// =====================================================
+
+const grupoEscolas = L.layerGroup().addTo(map);
+
+escolas.forEach(function(escola, indice) {
+
+    const marcador = L.marker(
+        [escola.lat, escola.lng]
+    );
+
+    let conteudoPopup =
+        "<strong>" + escola.nome + "</strong>";
+
+    if (escola.descricao) {
+        conteudoPopup +=
+            "<br>" + escola.descricao;
+    }
+
+    marcador.bindPopup(conteudoPopup);
+
+    marcador.addTo(grupoEscolas);
+
+});
     // Mensagem quando os tiles carregarem
     osm.on("load", function () {
 
