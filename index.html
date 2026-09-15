@@ -93,7 +93,33 @@
 .circulo-escola:hover {
     transform: scale(1.15);
 }
+.legenda-escolas {
+    margin: 15px 0;
+    padding: 12px;
 
+    background: #f7f7f7;
+
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+.legenda-escolas summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#listaEscolas {
+    margin-top: 12px;
+}
+
+.item-legenda-escola {
+    padding: 6px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.item-legenda-escola:last-child {
+    border-bottom: none;
+}
     </style>
 </head>
 
@@ -120,7 +146,15 @@
             Este mapa será utilizado para indicar os trajetos
             realizados entre a residência e a escola.
         </p>
+<details class="legenda-escolas">
 
+    <summary>
+        Ver lista das escolas
+    </summary>
+
+    <div id="listaEscolas"></div>
+
+</details>
         <div id="map"></div>
 
         <div
@@ -342,7 +376,31 @@ const escolas = [
 
 ];
 
+const listaEscolas =
+    document.getElementById("listaEscolas");
 
+const escolasOrdenadas =
+    [...escolas].sort(function(a, b) {
+        return a.numero - b.numero;
+    });
+
+escolasOrdenadas.forEach(function(escola) {
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "item-legenda-escola";
+
+    item.innerHTML =
+        "<strong>" +
+        escola.numero +
+        "</strong> — " +
+        escola.nome;
+
+    listaEscolas.appendChild(item);
+
+});
 // =====================================================
 // INSERÇÃO DAS ESCOLAS NO MAPA
 // =====================================================
