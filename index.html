@@ -222,7 +222,7 @@
         <button
             type="button"
             id="btnDesfazerIda"
-            disabled
+            
         >
             Desfazer último ponto
         </button>
@@ -510,6 +510,46 @@ escolasOrdenadas.forEach(function(escola) {
     selectEscola.appendChild(option);
 
 });
+
+    selectEscola.addEventListener("change", function() {
+
+    const btnIniciar =
+        document.getElementById("btnIniciarIda");
+
+    const instrucao =
+        document.getElementById("instrucaoTrajeto");
+
+    if (selectEscola.value === "") {
+
+        instrucao.textContent =
+            "Selecione primeiro a escola da criança.";
+
+        return;
+    }
+
+    const numeroEscola =
+        parseInt(selectEscola.value, 10);
+
+    const escola =
+        escolas.find(function(item) {
+            return item.numero === numeroEscola;
+        });
+
+    if (!escola) {
+        return;
+    }
+
+    instrucao.textContent =
+        "Escola selecionada: " +
+        escola.numero +
+        " — " +
+        escola.nome +
+        ". Clique em “Iniciar trajeto de ida”.";
+
+    btnIniciar.disabled = false;
+
+});
+    
 escolasOrdenadas.forEach(function(escola) {
 
     const item =
@@ -592,26 +632,89 @@ let linhaIda = null;
 const grupoPontosIda =
     L.layerGroup().addTo(map);
 });
+    const btnIniciarIda =
+    document.getElementById("btnIniciarIda");
+
+btnIniciarIda.addEventListener("click", function() {
+
+    const valorSelecionado =
+        selectEscola.value;
+
+    if (valorSelecionado === "") {
+
+        alert(
+            "Selecione primeiro a escola da criança."
+        );
+
+        return;
+    }
+
+    const numeroEscola =
+        parseInt(valorSelecionado, 10);
+
+    const escola =
+        escolas.find(function(item) {
+            return item.numero === numeroEscola;
+        });
+
+    if (!escola) {
+
+        alert(
+            "Não foi possível identificar a escola selecionada."
+        );
+
+        return;
+    }
+
+    // Ativa o modo de desenho
+    desenhandoIda = true;
+
+    trajetoIdaFinalizado = false;
+
+    // Limpa eventual trajeto anterior
+    pontosIda = [];
+
+    grupoPontosIda.clearLayers();
+
+    if (linhaIda) {
+
+        map.removeLayer(linhaIda);
+
+        linhaIda = null;
+
+    }
+
+    // Habilita os controles
     document
-    .getElementById("btnIniciarIda")
-    .addEventListener("click", function() {
+        .getElementById("btnDesfazerIda")
+        .disabled = false;
 
-        const numeroEscola =
-            Number(selectEscola.value);
+    document
+        .getElementById("btnLimparIda")
+        .disabled = false;
 
-        if (!numeroEscola) {
+    document
+        .getElementById("btnFinalizarIda")
+        .disabled = false;
 
-            alert(
-                "Selecione primeiro a escola da criança."
-            );
+    // Altera a interface
+    document
+        .getElementById("statusTrajetoIda")
+        .textContent =
+        "MODO DE DESENHO ATIVADO — toque no mapa para marcar o primeiro ponto.";
 
-            return;
-        }
+    document
+        .getElementById("instrucaoTrajeto")
+        .textContent =
+        "Comece pela residência e toque sucessivamente nas ruas utilizadas até chegar à escola.";
 
-        const escola =
-            escolas.find(function(item) {
-                return item.numero === numeroEscola;
-            });
+    // Aproxima o mapa da escola
+    map.setView(
+        [escola.lat, escola.lng],
+        15
+    );
+
+});
 
         desenhandoIda = true;
         trajetoIdaFinalizado = false;
@@ -653,9 +756,9 @@ const grupoPontosIda =
         );
 
     });
-    map.on("click", function(evento) {
+   map.on("click", function(evento) {
 
-    if (!desenhandoIda) {
+    if (desenhandoIda !== true) {
         return;
     }
 
@@ -666,13 +769,19 @@ const grupoPontosIda =
 
     pontosIda.push(ponto);
 
-    L.circleMarker(ponto, {
-        radius: 5
-    }).addTo(grupoPontosIda);
+    L.circleMarker(
+        ponto,
+        {
+            radius: 6,
+            weight: 2,
+            fillOpacity: 1
+        }
+    ).addTo(grupoPontosIda);
 
     atualizarLinhaIda();
 
 });
+    
     function atualizarLinhaIda() {
 
     if (linhaIda) {
