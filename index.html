@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -11,81 +12,65 @@
 
     <title>Pesquisa sobre Segurança Viária em Moema</title>
 
-    <!-- Leaflet CSS -->
+
+    <!-- =====================================================
+         LEAFLET - CSS
+    ====================================================== -->
+
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         crossorigin=""
     >
 
-    <!-- Leaflet JavaScript -->
+
+    <!-- =====================================================
+         LEAFLET - JAVASCRIPT
+    ====================================================== -->
+
     <script
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         crossorigin=""
     ></script>
 
+
+    <!-- =====================================================
+         ESTILOS DO SITE
+    ====================================================== -->
+
     <style>
-.controle-pesquisa,
-.controle-trajeto {
-    margin: 18px 0;
-    padding: 16px;
-    background: #f7f7f7;
-    border: 1px solid #dddddd;
-    border-radius: 8px;
-}
 
-#escolaSelecionada {
-    width: 100%;
-    margin-top: 10px;
-    padding: 12px;
+        * {
+            box-sizing: border-box;
+        }
 
-    font-size: 16px;
-
-    border: 1px solid #bbbbbb;
-    border-radius: 6px;
-
-    background: white;
-}
-
-.controle-trajeto button {
-    padding: 12px 16px;
-    margin: 5px 5px 5px 0;
-
-    font-size: 15px;
-
-    border: 1px solid #999999;
-    border-radius: 6px;
-
-    cursor: pointer;
-}
-
-#btnIniciarIda,
-#btnFinalizarIda {
-    font-weight: bold;
-}
-
-.controle-trajeto button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-#statusTrajetoIda {
-    margin-top: 12px;
-    font-weight: bold;
-}
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             margin: 0;
             background: #f5f5f5;
-            color: #222;
+            color: #222222;
         }
+
+
+        /* =====================================================
+           CABEÇALHO
+        ====================================================== */
 
         header {
             background: white;
             padding: 20px;
             text-align: center;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #dddddd;
         }
+
+        header h1 {
+            margin-top: 0;
+        }
+
+
+        /* =====================================================
+           CONTEÚDO PRINCIPAL
+        ====================================================== */
 
         main {
             max-width: 1000px;
@@ -99,171 +84,380 @@
             border-radius: 10px;
         }
 
+
+        /* =====================================================
+           MAPA
+        ====================================================== */
+
         #map {
             width: 100%;
             height: 600px;
             margin-top: 20px;
             border-radius: 8px;
+            border: 1px solid #dddddd;
         }
 
         .status-mapa {
             margin-top: 10px;
             font-size: 14px;
         }
+
+
+        /* =====================================================
+           SELEÇÃO DA ESCOLA
+        ====================================================== */
+
+        .controle-pesquisa {
+            margin: 18px 0;
+            padding: 16px;
+
+            background: #f7f7f7;
+
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+        }
+
+        #escolaSelecionada {
+            width: 100%;
+
+            margin-top: 10px;
+            padding: 12px;
+
+            font-size: 16px;
+
+            border: 1px solid #bbbbbb;
+            border-radius: 6px;
+
+            background: white;
+        }
+
+
+        /* =====================================================
+           CONTROLE DO TRAJETO
+        ====================================================== */
+
+        .controle-trajeto {
+            margin: 18px 0;
+            padding: 16px;
+
+            background: #f7f7f7;
+
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+        }
+
+        .controle-trajeto h3 {
+            margin-top: 0;
+        }
+
+        .controle-trajeto button {
+            padding: 12px 16px;
+
+            margin:
+                5px
+                5px
+                5px
+                0;
+
+            font-size: 15px;
+
+            border: 1px solid #999999;
+            border-radius: 6px;
+
+            background: white;
+
+            cursor: pointer;
+        }
+
+        #btnIniciarIda,
+        #btnFinalizarIda {
+            font-weight: bold;
+        }
+
+        .controle-trajeto button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .botoes-trajeto {
+            margin-top: 10px;
+        }
+
+        #statusTrajetoIda {
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           MARCADORES DAS ESCOLAS
+        ====================================================== */
+
         .marcador-escola {
-    background: transparent;
-    border: none;
-}
+            background: transparent;
+            border: none;
+        }
 
-.circulo-escola {
-    width: 32px;
-    height: 32px;
+        .circulo-escola {
+            width: 32px;
+            height: 32px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    background: #ffffff;
-    color: #111111;
+            background: #ffffff;
+            color: #111111;
 
-    border: 3px solid #222222;
-    border-radius: 50%;
+            border: 3px solid #222222;
+            border-radius: 50%;
 
-    font-size: 14px;
-    font-weight: bold;
+            font-size: 14px;
+            font-weight: bold;
 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+            box-shadow:
+                0 2px 5px
+                rgba(0, 0, 0, 0.35);
 
-    cursor: pointer;
-}
+            cursor: pointer;
+        }
 
-.circulo-escola:hover {
-    transform: scale(1.15);
-}
-.legenda-escolas {
-    margin: 15px 0;
-    padding: 12px;
+        .circulo-escola:hover {
+            transform: scale(1.15);
+        }
 
-    background: #f7f7f7;
 
-    border: 1px solid #dddddd;
-    border-radius: 8px;
-}
+        /* =====================================================
+           LEGENDA DAS ESCOLAS
+        ====================================================== */
 
-.legenda-escolas summary {
-    cursor: pointer;
-    font-weight: bold;
-}
+        .legenda-escolas {
+            margin: 15px 0;
+            padding: 12px;
 
-#listaEscolas {
-    margin-top: 12px;
-}
+            background: #f7f7f7;
 
-.item-legenda-escola {
-    padding: 6px 0;
-    border-bottom: 1px solid #e5e5e5;
-}
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+        }
 
-.item-legenda-escola:last-child {
-    border-bottom: none;
-}
+        .legenda-escolas summary {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #listaEscolas {
+            margin-top: 12px;
+        }
+
+        .item-legenda-escola {
+            padding: 6px 0;
+
+            border-bottom:
+                1px solid #e5e5e5;
+        }
+
+        .item-legenda-escola:last-child {
+            border-bottom: none;
+        }
+
+
+        /* =====================================================
+           CELULAR
+        ====================================================== */
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            main {
+                margin: 10px auto;
+                padding: 0 10px;
+            }
+
+            .caixa {
+                padding: 15px;
+            }
+
+            #map {
+                height: 500px;
+            }
+
+            .controle-trajeto button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================================================
+     CABEÇALHO
+========================================================== -->
+
 <header>
 
-    <h1>Pesquisa sobre Segurança Viária em Moema</h1>
+    <h1>
+        Pesquisa sobre Segurança Viária em Moema
+    </h1>
 
     <p>
-        Pesquisa sobre os deslocamentos escolares e a segurança
-        viária no bairro de Moema, São Paulo.
+        Pesquisa sobre os deslocamentos escolares
+        e a segurança viária no bairro de Moema,
+        São Paulo.
     </p>
 
 </header>
+
+
+
+<!-- =========================================================
+     CONTEÚDO
+========================================================== -->
 
 <main>
 
     <div class="caixa">
 
-        <h2>Mapa da área de estudo</h2>
-<div class="controle-pesquisa">
+        <h2>
+            Mapa da área de estudo
+        </h2>
 
-    <label for="escolaSelecionada">
-        <strong>1. Selecione a escola da criança:</strong>
-    </label>
-
-    <select id="escolaSelecionada">
-        <option value="">
-            Selecione uma escola
-        </option>
-    </select>
-
-</div>
-
-<div class="controle-trajeto">
-
-    <h3>2. Trajeto de ida — residência → escola</h3>
-
-    <p id="instrucaoTrajeto">
-        Selecione primeiro a escola da criança.
-    </p>
-
-    <button
-        type="button"
-        id="btnIniciarIda"
-    >
-        Iniciar trajeto de ida
-    </button>
-
-    <div class="botoes-trajeto">
-
-        <button
-            type="button"
-            id="btnDesfazerIda"
-            
-        >
-            Desfazer último ponto
-        </button>
-
-        <button
-            type="button"
-            id="btnLimparIda"
-            disabled
-        >
-            Limpar trajeto
-        </button>
-
-        <button
-            type="button"
-            id="btnFinalizarIda"
-            disabled
-        >
-            Finalizar trajeto de ida
-        </button>
-
-    </div>
-
-    <p id="statusTrajetoIda">
-        Nenhum trajeto iniciado.
-    </p>
-
-</div>
         <p>
-            Este mapa será utilizado para indicar os trajetos
-            realizados entre a residência e a escola.
+            Este mapa será utilizado para indicar os
+            trajetos realizados entre a residência
+            e a escola.
         </p>
-<details class="legenda-escolas">
 
-    <summary>
-        Ver lista das escolas
-    </summary>
 
-    <div id="listaEscolas"></div>
+        <!-- =================================================
+             SELEÇÃO DA ESCOLA
+        ================================================== -->
 
-</details>
+        <div class="controle-pesquisa">
+
+            <label for="escolaSelecionada">
+
+                <strong>
+                    1. Selecione a escola da criança:
+                </strong>
+
+            </label>
+
+            <select id="escolaSelecionada">
+
+                <option value="">
+                    Selecione uma escola
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TRAJETO DE IDA
+        ================================================== -->
+
+        <div class="controle-trajeto">
+
+            <h3>
+                2. Trajeto de ida —
+                residência → escola
+            </h3>
+
+            <p id="instrucaoTrajeto">
+
+                Selecione primeiro a escola da criança.
+
+            </p>
+
+
+            <button
+                type="button"
+                id="btnIniciarIda"
+            >
+                Iniciar trajeto de ida
+            </button>
+
+
+            <div class="botoes-trajeto">
+
+                <button
+                    type="button"
+                    id="btnDesfazerIda"
+                    disabled
+                >
+                    Desfazer último ponto
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnLimparIda"
+                    disabled
+                >
+                    Limpar trajeto
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnFinalizarIda"
+                    disabled
+                >
+                    Finalizar trajeto de ida
+                </button>
+
+            </div>
+
+
+            <p id="statusTrajetoIda">
+
+                Nenhum trajeto iniciado.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             LEGENDA
+        ================================================== -->
+
+        <details class="legenda-escolas">
+
+            <summary>
+                Ver lista das escolas
+            </summary>
+
+            <div id="listaEscolas"></div>
+
+        </details>
+
+
+
+        <!-- =================================================
+             MAPA
+        ================================================== -->
+
         <div id="map"></div>
+
 
         <div
             id="statusMapa"
@@ -272,44 +466,74 @@
             Carregando mapa...
         </div>
 
+
     </div>
 
 </main>
 
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
 <script>
 
-    // Coordenadas aproximadas do centro de Moema
-    const centroMoema = [-23.6005, -46.6655];
 
-    // Criação do mapa
-    const map = L.map("map", {
+// ============================================================
+// 1. CRIAÇÃO DO MAPA
+// ============================================================
+
+const centroMoema = [
+    -23.6005,
+    -46.6655
+];
+
+
+const map = L.map(
+    "map",
+    {
         center: centroMoema,
         zoom: 14,
         zoomControl: true
-    });
+    }
+);
 
-    // Camada OpenStreetMap
-    const osm = L.tileLayer(
-        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 19,
-            attribution:
-                '&copy; OpenStreetMap contributors'
-        }
-    );
 
-    osm.addTo(map);
-// =====================================================
-// ESCOLAS DA ÁREA DE ESTUDO
-// Coordenadas extraídas dos arquivos KMZ do projeto QGIS
-// =====================================================
+// ============================================================
+// 2. OPENSTREETMAP
+// ============================================================
+
+const osm = L.tileLayer(
+
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+    {
+        maxZoom: 19,
+
+        attribution:
+            '&copy; OpenStreetMap contributors'
+    }
+
+);
+
+
+osm.addTo(map);
+
+
+
+// ============================================================
+// 3. ESCOLAS
+// Coordenadas provenientes dos pontos utilizados no QGIS
+// ============================================================
 
 const escolas = [
 
     {
         numero: 21,
         nome: "AVIVA",
-        descricao: "Berçário e Escola Infantil",
+        descricao:
+            "Berçário e Escola Infantil",
         lat: -23.6037280606714,
         lng: -46.65537456029791
     },
@@ -317,7 +541,8 @@ const escolas = [
     {
         numero: 22,
         nome: "be.Living",
-        descricao: "Ensino Fundamental",
+        descricao:
+            "Ensino Fundamental",
         lat: -23.60991004133065,
         lng: -46.65847546305854
     },
@@ -325,7 +550,8 @@ const escolas = [
     {
         numero: 11,
         nome: "Colégio Augusto Laranja",
-        descricao: "Ensino Fundamental e Médio",
+        descricao:
+            "Ensino Fundamental e Médio",
         lat: -23.6129807682017,
         lng: -46.66853756098254
     },
@@ -333,7 +559,8 @@ const escolas = [
     {
         numero: 17,
         nome: "Colégio Ítalo-Brasileiro",
-        descricao: "Ensino Fundamental e Médio",
+        descricao:
+            "Ensino Fundamental e Médio",
         lat: -23.60804143761485,
         lng: -46.66075710524122
     },
@@ -341,7 +568,8 @@ const escolas = [
     {
         numero: 10,
         nome: "Colégio Itatiaia",
-        descricao: "Berçário e Educação Infantil",
+        descricao:
+            "Berçário e Educação Infantil",
         lat: -23.60860742278564,
         lng: -46.66045158459803
     },
@@ -349,126 +577,156 @@ const escolas = [
     {
         numero: 14,
         nome: "Colégio Lectus",
-        descricao: "Educação Infantil e Ensino Médio",
+        descricao:
+            "Educação Infantil e Ensino Médio",
         lat: -23.61314389902763,
         lng: -46.6621477061035
     },
 
     {
         numero: 18,
-        nome: "Colégio Octagon – Objetivo",
-        descricao: "Ensino Fundamental II",
+        nome:
+            "Colégio Octagon – Objetivo",
+        descricao:
+            "Ensino Fundamental II",
         lat: -23.60921303209982,
         lng: -46.66934061663206
     },
 
     {
         numero: 16,
-        nome: "CONSA – Colégio Francisco Nossa Senhora Aparecida",
-        descricao: "Ensino Infantil e Fundamental",
+        nome:
+            "CONSA – Colégio Francisco Nossa Senhora Aparecida",
+        descricao:
+            "Ensino Infantil e Fundamental",
         lat: -23.60075913856005,
         lng: -46.66409164758021
     },
 
     {
         numero: 12,
-        nome: "EMEF Prof. João Carlos da Silva Borges",
-        descricao: "Ensino Fundamental",
+        nome:
+            "EMEF Prof. João Carlos da Silva Borges",
+        descricao:
+            "Ensino Fundamental",
         lat: -23.61570978160366,
         lng: -46.66290486249515
     },
 
     {
         numero: 8,
-        nome: "EMEI Dona Anita Costa",
-        descricao: "Educação Infantil",
+        nome:
+            "EMEI Dona Anita Costa",
+        descricao:
+            "Educação Infantil",
         lat: -23.60178601991349,
         lng: -46.6579872597279
     },
 
     {
         numero: 13,
-        nome: "EMEI Lucy Garcia Salgado",
-        descricao: "Educação Infantil",
+        nome:
+            "EMEI Lucy Garcia Salgado",
+        descricao:
+            "Educação Infantil",
         lat: -23.61615578220294,
         lng: -46.66236774388901
     },
 
     {
         numero: 6,
-        nome: "EMEI Prof. Inácio Henrique Romero",
-        descricao: "Educação Infantil",
+        nome:
+            "EMEI Prof. Inácio Henrique Romero",
+        descricao:
+            "Educação Infantil",
         lat: -23.60945553998751,
         lng: -46.67147218778467
     },
 
     {
         numero: 7,
-        nome: "E. E. Cesar Martinez",
-        descricao: "Ensino Fundamental",
+        nome:
+            "E. E. Cesar Martinez",
+        descricao:
+            "Ensino Fundamental",
         lat: -23.60135101962355,
         lng: -46.65803780575516
     },
 
     {
         numero: 5,
-        nome: "E. E. Professor Napoleão de Carvalho Freire",
-        descricao: "Ensino Fundamental e Médio",
+        nome:
+            "E. E. Professor Napoleão de Carvalho Freire",
+        descricao:
+            "Ensino Fundamental e Médio",
         lat: -23.60935391665141,
         lng: -46.67247914709958
     },
 
     {
         numero: 9,
-        nome: "Escola Carneiro",
-        descricao: "Escola de Artes",
+        nome:
+            "Escola Carneiro",
+        descricao:
+            "Escola de Artes",
         lat: -23.60735327640313,
         lng: -46.65651608992828
     },
 
     {
         numero: 19,
-        nome: "Escola Gaivota",
-        descricao: "Pré-escola",
+        nome:
+            "Escola Gaivota",
+        descricao:
+            "Pré-escola",
         lat: -23.60161093924047,
         lng: -46.66614214483828
     },
 
     {
         numero: 15,
-        nome: "Escola Móbile",
-        descricao: "Educação Infantil",
+        nome:
+            "Escola Móbile",
+        descricao:
+            "Educação Infantil",
         lat: -23.59843479360499,
         lng: -46.66964221841899
     },
 
     {
         numero: 20,
-        nome: "Escola Morumbi – Colégio Mor",
-        descricao: "Ensino Infantil ao Médio",
+        nome:
+            "Escola Morumbi – Colégio Mor",
+        descricao:
+            "Ensino Infantil ao Médio",
         lat: -23.6089730003107,
         lng: -46.65730823228701
     },
 
     {
         numero: 3,
-        nome: "Escola Pinguim",
-        descricao: "Berçário e Educação Infantil",
+        nome:
+            "Escola Pinguim",
+        descricao:
+            "Berçário e Educação Infantil",
         lat: -23.60455438702793,
         lng: -46.67206283192699
     },
 
     {
         numero: 2,
-        nome: "Fadelito Moema",
-        descricao: "Educação Infantil",
+        nome:
+            "Fadelito Moema",
+        descricao:
+            "Educação Infantil",
         lat: -23.60219902716726,
         lng: -46.66921944553429
     },
 
     {
         numero: 1,
-        nome: "Novo Ângulo Novo Esquema",
+        nome:
+            "Novo Ângulo Novo Esquema",
         descricao: "",
         lat: -23.59957781304925,
         lng: -46.67281152648513
@@ -476,451 +734,790 @@ const escolas = [
 
     {
         numero: 4,
-        nome: "Peixinho Vermelho",
-        descricao: "Educação Infantil",
+        nome:
+            "Peixinho Vermelho",
+        descricao:
+            "Educação Infantil",
         lat: -23.60648672044722,
         lng: -46.67317699050848
     }
 
 ];
 
-const listaEscolas =
-    document.getElementById("listaEscolas");
+
+
+// ============================================================
+// 4. ORDENAÇÃO DAS ESCOLAS
+// ============================================================
 
 const escolasOrdenadas =
-    [...escolas].sort(function(a, b) {
-        return a.numero - b.numero;
-    });
-const selectEscola =
-    document.getElementById("escolaSelecionada");
-
-escolasOrdenadas.forEach(function(escola) {
-
-    const option =
-        document.createElement("option");
-
-    option.value =
-        escola.numero;
-
-    option.textContent =
-        escola.numero +
-        " — " +
-        escola.nome;
-
-    selectEscola.appendChild(option);
-
-});
-
-    selectEscola.addEventListener("change", function() {
-
-    const btnIniciar =
-        document.getElementById("btnIniciarIda");
-
-    const instrucao =
-        document.getElementById("instrucaoTrajeto");
-
-    if (selectEscola.value === "") {
-
-        instrucao.textContent =
-            "Selecione primeiro a escola da criança.";
-
-        return;
-    }
-
-    const numeroEscola =
-        parseInt(selectEscola.value, 10);
-
-    const escola =
-        escolas.find(function(item) {
-            return item.numero === numeroEscola;
-        });
-
-    if (!escola) {
-        return;
-    }
-
-    instrucao.textContent =
-        "Escola selecionada: " +
-        escola.numero +
-        " — " +
-        escola.nome +
-        ". Clique em “Iniciar trajeto de ida”.";
-
-    btnIniciar.disabled = false;
-
-});
-    
-escolasOrdenadas.forEach(function(escola) {
-
-    const item =
-        document.createElement("div");
-
-    item.className =
-        "item-legenda-escola";
-
-    item.innerHTML =
-        "<strong>" +
-        escola.numero +
-        "</strong> — " +
-        escola.nome;
-
-    listaEscolas.appendChild(item);
-
-});
-// =====================================================
-// INSERÇÃO DAS ESCOLAS NO MAPA
-// =====================================================
-
-const grupoEscolas = L.layerGroup().addTo(map);
-
-escolas.forEach(function(escola) {
-
-    const iconeNumerado = L.divIcon({
-
-        className: "marcador-escola",
-
-        html:
-            '<div class="circulo-escola">' +
-            escola.numero +
-            '</div>',
-
-        iconSize: [34, 34],
-
-        iconAnchor: [17, 17],
-
-        popupAnchor: [0, -18]
-
-    });
-
-    const marcador = L.marker(
-        [escola.lat, escola.lng],
-        {
-            icon: iconeNumerado
+    [...escolas].sort(
+        function(a, b) {
+            return a.numero - b.numero;
         }
     );
 
-    let conteudoPopup =
-        "<strong>" +
-        escola.numero +
-        " — " +
-        escola.nome +
-        "</strong>";
 
-    if (escola.descricao) {
 
-        conteudoPopup +=
-            "<br>" +
-            escola.descricao;
+// ============================================================
+// 5. SELETOR DE ESCOLAS
+// ============================================================
+
+const selectEscola =
+    document.getElementById(
+        "escolaSelecionada"
+    );
+
+
+escolasOrdenadas.forEach(
+    function(escola) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            escola.numero;
+
+        option.textContent =
+            escola.numero +
+            " — " +
+            escola.nome;
+
+        selectEscola.appendChild(
+            option
+        );
 
     }
+);
 
-    marcador.bindPopup(conteudoPopup);
 
-    marcador.addTo(grupoEscolas);
-// =====================================================
-// TRAJETO DE IDA
-// =====================================================
 
-let desenhandoIda = false;
+// ============================================================
+// 6. LEGENDA DAS ESCOLAS
+// ============================================================
 
-let trajetoIdaFinalizado = false;
+const listaEscolas =
+    document.getElementById(
+        "listaEscolas"
+    );
 
-let pontosIda = [];
 
-let linhaIda = null;
+escolasOrdenadas.forEach(
+    function(escola) {
+
+        const item =
+            document.createElement(
+                "div"
+            );
+
+        item.className =
+            "item-legenda-escola";
+
+        item.innerHTML =
+            "<strong>" +
+            escola.numero +
+            "</strong> — " +
+            escola.nome;
+
+        listaEscolas.appendChild(
+            item
+        );
+
+    }
+);
+
+
+
+// ============================================================
+// 7. MUDANÇA DE ESCOLA SELECIONADA
+// ============================================================
+
+selectEscola.addEventListener(
+    "change",
+    function() {
+
+        const btnIniciar =
+            document.getElementById(
+                "btnIniciarIda"
+            );
+
+        const instrucao =
+            document.getElementById(
+                "instrucaoTrajeto"
+            );
+
+
+        if (
+            selectEscola.value === ""
+        ) {
+
+            instrucao.textContent =
+                "Selecione primeiro a escola da criança.";
+
+            return;
+
+        }
+
+
+        const numeroEscola =
+            parseInt(
+                selectEscola.value,
+                10
+            );
+
+
+        const escola =
+            escolas.find(
+                function(item) {
+
+                    return (
+                        item.numero ===
+                        numeroEscola
+                    );
+
+                }
+            );
+
+
+        if (!escola) {
+
+            instrucao.textContent =
+                "Não foi possível identificar a escola selecionada.";
+
+            return;
+
+        }
+
+
+        instrucao.textContent =
+            "Escola selecionada: " +
+            escola.numero +
+            " — " +
+            escola.nome +
+            ". Clique em “Iniciar trajeto de ida”.";
+
+
+        btnIniciar.disabled =
+            false;
+
+    }
+);
+
+
+
+// ============================================================
+// 8. MARCADORES NUMERADOS DAS ESCOLAS
+// ============================================================
+
+const grupoEscolas =
+    L.layerGroup().addTo(map);
+
+
+escolas.forEach(
+    function(escola) {
+
+
+        const iconeNumerado =
+            L.divIcon({
+
+                className:
+                    "marcador-escola",
+
+                html:
+                    '<div class="circulo-escola">' +
+                    escola.numero +
+                    "</div>",
+
+                iconSize:
+                    [34, 34],
+
+                iconAnchor:
+                    [17, 17],
+
+                popupAnchor:
+                    [0, -18]
+
+            });
+
+
+        const marcador =
+            L.marker(
+
+                [
+                    escola.lat,
+                    escola.lng
+                ],
+
+                {
+                    icon:
+                        iconeNumerado
+                }
+
+            );
+
+
+        let conteudoPopup =
+            "<strong>" +
+            escola.numero +
+            " — " +
+            escola.nome +
+            "</strong>";
+
+
+        if (
+            escola.descricao
+        ) {
+
+            conteudoPopup +=
+                "<br>" +
+                escola.descricao;
+
+        }
+
+
+        marcador.bindPopup(
+            conteudoPopup
+        );
+
+
+        marcador.addTo(
+            grupoEscolas
+        );
+
+    }
+);
+
+
+
+// ============================================================
+// 9. VARIÁVEIS DO TRAJETO DE IDA
+// ============================================================
+
+let desenhandoIda =
+    false;
+
+let trajetoIdaFinalizado =
+    false;
+
+let pontosIda =
+    [];
+
+let linhaIda =
+    null;
+
 
 const grupoPontosIda =
     L.layerGroup().addTo(map);
-});
-    const btnIniciarIda =
-    document.getElementById("btnIniciarIda");
 
-btnIniciarIda.addEventListener("click", function() {
 
-    const valorSelecionado =
-        selectEscola.value;
 
-    if (valorSelecionado === "") {
+// ============================================================
+// 10. BOTÃO INICIAR TRAJETO DE IDA
+// ============================================================
 
-        alert(
-            "Selecione primeiro a escola da criança."
-        );
-
-        return;
-    }
-
-    const numeroEscola =
-        parseInt(valorSelecionado, 10);
-
-    const escola =
-        escolas.find(function(item) {
-            return item.numero === numeroEscola;
-        });
-
-    if (!escola) {
-
-        alert(
-            "Não foi possível identificar a escola selecionada."
-        );
-
-        return;
-    }
-
-    // Ativa o modo de desenho
-    desenhandoIda = true;
-
-    trajetoIdaFinalizado = false;
-
-    // Limpa eventual trajeto anterior
-    pontosIda = [];
-
-    grupoPontosIda.clearLayers();
-
-    if (linhaIda) {
-
-        map.removeLayer(linhaIda);
-
-        linhaIda = null;
-
-    }
-
-    // Habilita os controles
-    document
-        .getElementById("btnDesfazerIda")
-        .disabled = false;
-
-    document
-        .getElementById("btnLimparIda")
-        .disabled = false;
-
-    document
-        .getElementById("btnFinalizarIda")
-        .disabled = false;
-
-    // Altera a interface
-    document
-        .getElementById("statusTrajetoIda")
-        .textContent =
-        "MODO DE DESENHO ATIVADO — toque no mapa para marcar o primeiro ponto.";
-
-    document
-        .getElementById("instrucaoTrajeto")
-        .textContent =
-        "Comece pela residência e toque sucessivamente nas ruas utilizadas até chegar à escola.";
-
-    // Aproxima o mapa da escola
-    map.setView(
-        [escola.lat, escola.lng],
-        15
+const btnIniciarIda =
+    document.getElementById(
+        "btnIniciarIda"
     );
 
-});
 
-        desenhandoIda = true;
-        trajetoIdaFinalizado = false;
+btnIniciarIda.addEventListener(
+    "click",
+    function() {
 
-        pontosIda = [];
 
-        grupoPontosIda.clearLayers();
+        const valorSelecionado =
+            selectEscola.value;
 
-        if (linhaIda) {
-            map.removeLayer(linhaIda);
-            linhaIda = null;
+
+        if (
+            valorSelecionado === ""
+        ) {
+
+            alert(
+                "Selecione primeiro a escola da criança."
+            );
+
+            return;
+
         }
 
-        document
-            .getElementById("btnDesfazerIda")
-            .disabled = false;
+
+        const numeroEscola =
+            parseInt(
+                valorSelecionado,
+                10
+            );
+
+
+        const escola =
+            escolas.find(
+                function(item) {
+
+                    return (
+                        item.numero ===
+                        numeroEscola
+                    );
+
+                }
+            );
+
+
+        if (!escola) {
+
+            alert(
+                "Não foi possível identificar a escola selecionada."
+            );
+
+            return;
+
+        }
+
+
+        // Ativa o modo de desenho
+
+        desenhandoIda =
+            true;
+
+        trajetoIdaFinalizado =
+            false;
+
+
+        // Limpa eventual trajeto anterior
+
+        pontosIda =
+            [];
+
+
+        grupoPontosIda
+            .clearLayers();
+
+
+        if (linhaIda) {
+
+            map.removeLayer(
+                linhaIda
+            );
+
+            linhaIda =
+                null;
+
+        }
+
+
+        // Habilita os controles
 
         document
-            .getElementById("btnLimparIda")
-            .disabled = false;
+            .getElementById(
+                "btnDesfazerIda"
+            )
+            .disabled =
+            false;
+
 
         document
-            .getElementById("btnFinalizarIda")
-            .disabled = false;
+            .getElementById(
+                "btnLimparIda"
+            )
+            .disabled =
+            false;
+
 
         document
-            .getElementById("statusTrajetoIda")
+            .getElementById(
+                "btnFinalizarIda"
+            )
+            .disabled =
+            false;
+
+
+        // Atualiza os textos
+
+        document
+            .getElementById(
+                "statusTrajetoIda"
+            )
             .textContent =
-            "Trajeto em edição. Toque no mapa seguindo as ruas utilizadas.";
+            "MODO DE DESENHO ATIVADO — toque no mapa para marcar o primeiro ponto.";
+
 
         document
-            .getElementById("instrucaoTrajeto")
+            .getElementById(
+                "instrucaoTrajeto"
+            )
             .textContent =
             "Comece pela residência e toque sucessivamente nas ruas utilizadas até chegar à escola.";
 
+
+        // Centraliza aproximadamente na escola
+
         map.setView(
-            [escola.lat, escola.lng],
+
+            [
+                escola.lat,
+                escola.lng
+            ],
+
             15
+
         );
 
-    });
-   map.on("click", function(evento) {
-
-    if (desenhandoIda !== true) {
-        return;
     }
+);
 
-    const ponto = [
-        evento.latlng.lat,
-        evento.latlng.lng
-    ];
 
-    pontosIda.push(ponto);
 
-    L.circleMarker(
-        ponto,
-        {
-            radius: 6,
-            weight: 2,
-            fillOpacity: 1
+// ============================================================
+// 11. CLIQUE NO MAPA
+// ============================================================
+
+map.on(
+    "click",
+    function(evento) {
+
+
+        if (
+            desenhandoIda !== true
+        ) {
+
+            return;
+
         }
-    ).addTo(grupoPontosIda);
 
-    atualizarLinhaIda();
 
-});
-    
-    function atualizarLinhaIda() {
+        const ponto = [
+
+            evento.latlng.lat,
+
+            evento.latlng.lng
+
+        ];
+
+
+        pontosIda.push(
+            ponto
+        );
+
+
+        L.circleMarker(
+
+            ponto,
+
+            {
+                radius: 6,
+                weight: 2,
+                fillOpacity: 1
+            }
+
+        ).addTo(
+            grupoPontosIda
+        );
+
+
+        atualizarLinhaIda();
+
+    }
+);
+
+
+
+// ============================================================
+// 12. ATUALIZAR LINHA DO TRAJETO
+// ============================================================
+
+function atualizarLinhaIda() {
+
 
     if (linhaIda) {
-        map.removeLayer(linhaIda);
-        linhaIda = null;
+
+        map.removeLayer(
+            linhaIda
+        );
+
+        linhaIda =
+            null;
+
     }
 
-    if (pontosIda.length >= 2) {
+
+    if (
+        pontosIda.length >= 2
+    ) {
 
         linhaIda =
             L.polyline(
+
                 pontosIda,
+
                 {
                     weight: 5,
                     opacity: 0.85
                 }
+
             ).addTo(map);
 
     }
 
+
     document
-        .getElementById("statusTrajetoIda")
+        .getElementById(
+            "statusTrajetoIda"
+        )
         .textContent =
         "Pontos registrados: " +
         pontosIda.length;
 
 }
-    document
-    .getElementById("btnDesfazerIda")
-    .addEventListener("click", function() {
 
-        if (pontosIda.length === 0) {
-            return;
-        }
 
-        pontosIda.pop();
 
-        grupoPontosIda.clearLayers();
+// ============================================================
+// 13. DESFAZER ÚLTIMO PONTO
+// ============================================================
 
-        pontosIda.forEach(function(ponto) {
+document
+    .getElementById(
+        "btnDesfazerIda"
+    )
+    .addEventListener(
+        "click",
+        function() {
 
-            L.circleMarker(ponto, {
-                radius: 5
-            }).addTo(grupoPontosIda);
 
-        });
+            if (
+                pontosIda.length === 0
+            ) {
 
-        atualizarLinhaIda();
+                return;
 
-    });
-    document
-    .getElementById("btnLimparIda")
-    .addEventListener("click", function() {
+            }
 
-        const confirmar =
-            confirm(
-                "Deseja apagar todo o trajeto de ida?"
+
+            pontosIda.pop();
+
+
+            grupoPontosIda
+                .clearLayers();
+
+
+            pontosIda.forEach(
+                function(ponto) {
+
+                    L.circleMarker(
+
+                        ponto,
+
+                        {
+                            radius: 6,
+                            weight: 2,
+                            fillOpacity: 1
+                        }
+
+                    ).addTo(
+                        grupoPontosIda
+                    );
+
+                }
             );
 
-        if (!confirmar) {
-            return;
+
+            atualizarLinhaIda();
+
         }
+    );
 
-        pontosIda = [];
 
-        grupoPontosIda.clearLayers();
 
-        if (linhaIda) {
-            map.removeLayer(linhaIda);
-            linhaIda = null;
+// ============================================================
+// 14. LIMPAR TRAJETO
+// ============================================================
+
+document
+    .getElementById(
+        "btnLimparIda"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+
+            const confirmar =
+                confirm(
+                    "Deseja apagar todo o trajeto de ida?"
+                );
+
+
+            if (!confirmar) {
+
+                return;
+
+            }
+
+
+            pontosIda =
+                [];
+
+
+            grupoPontosIda
+                .clearLayers();
+
+
+            if (linhaIda) {
+
+                map.removeLayer(
+                    linhaIda
+                );
+
+                linhaIda =
+                    null;
+
+            }
+
+
+            document
+                .getElementById(
+                    "statusTrajetoIda"
+                )
+                .textContent =
+                "Trajeto apagado. Toque no mapa para começar novamente.";
+
         }
+    );
 
-        document
-            .getElementById("statusTrajetoIda")
-            .textContent =
-            "Trajeto apagado. Toque no mapa para começar novamente.";
 
-    });
-    document
-    .getElementById("btnFinalizarIda")
-    .addEventListener("click", function() {
 
-        if (pontosIda.length < 2) {
+// ============================================================
+// 15. FINALIZAR TRAJETO
+// ============================================================
 
-            alert(
-                "Marque pelo menos dois pontos antes de finalizar o trajeto."
-            );
+document
+    .getElementById(
+        "btnFinalizarIda"
+    )
+    .addEventListener(
+        "click",
+        function() {
 
-            return;
+
+            if (
+                pontosIda.length < 2
+            ) {
+
+                alert(
+                    "Marque pelo menos dois pontos antes de finalizar o trajeto."
+                );
+
+                return;
+
+            }
+
+
+            desenhandoIda =
+                false;
+
+
+            trajetoIdaFinalizado =
+                true;
+
+
+            document
+                .getElementById(
+                    "btnDesfazerIda"
+                )
+                .disabled =
+                true;
+
+
+            document
+                .getElementById(
+                    "btnLimparIda"
+                )
+                .disabled =
+                true;
+
+
+            document
+                .getElementById(
+                    "btnFinalizarIda"
+                )
+                .disabled =
+                true;
+
+
+            document
+                .getElementById(
+                    "statusTrajetoIda"
+                )
+                .textContent =
+                "Trajeto de ida finalizado com sucesso.";
+
+
+            document
+                .getElementById(
+                    "instrucaoTrajeto"
+                )
+                .textContent =
+                "Trajeto registrado. Você poderá prosseguir para a próxima etapa.";
+
         }
+    );
 
-        desenhandoIda = false;
-        trajetoIdaFinalizado = true;
 
-        document
-            .getElementById("btnDesfazerIda")
-            .disabled = true;
 
-        document
-            .getElementById("btnLimparIda")
-            .disabled = true;
+// ============================================================
+// 16. STATUS DO OPENSTREETMAP
+// ============================================================
 
-        document
-            .getElementById("btnFinalizarIda")
-            .disabled = true;
+osm.on(
+    "load",
+    function() {
 
         document
-            .getElementById("statusTrajetoIda")
+            .getElementById(
+                "statusMapa"
+            )
             .textContent =
-            "Trajeto de ida finalizado com sucesso.";
-
-        document
-            .getElementById("instrucaoTrajeto")
-            .textContent =
-            "Trajeto registrado. Você poderá prosseguir para a próxima etapa.";
-
-    });
-    // Mensagem quando os tiles carregarem
-    osm.on("load", function () {
-
-        document.getElementById("statusMapa").textContent =
             "Mapa carregado corretamente.";
 
-    });
+    }
+);
 
-    // Detecção de erro
-    osm.on("tileerror", function () {
 
-        document.getElementById("statusMapa").textContent =
+osm.on(
+    "tileerror",
+    function() {
+
+        document
+            .getElementById(
+                "statusMapa"
+            )
+            .textContent =
             "Houve um problema ao carregar parte do mapa-base.";
 
-    });
+    }
+);
 
-    // Corrige possíveis problemas de dimensão
-    setTimeout(function () {
+
+
+// ============================================================
+// 17. CORREÇÃO DO TAMANHO DO MAPA
+// ============================================================
+
+setTimeout(
+    function() {
+
         map.invalidateSize();
-    }, 500);
+
+    },
+
+    500
+);
+
 
 </script>
+
 
 </body>
 
