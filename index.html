@@ -25,7 +25,54 @@
     ></script>
 
     <style>
+.controle-pesquisa,
+.controle-trajeto {
+    margin: 18px 0;
+    padding: 16px;
+    background: #f7f7f7;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
 
+#escolaSelecionada {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+
+    font-size: 16px;
+
+    border: 1px solid #bbbbbb;
+    border-radius: 6px;
+
+    background: white;
+}
+
+.controle-trajeto button {
+    padding: 12px 16px;
+    margin: 5px 5px 5px 0;
+
+    font-size: 15px;
+
+    border: 1px solid #999999;
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+#btnIniciarIda,
+#btnFinalizarIda {
+    font-weight: bold;
+}
+
+.controle-trajeto button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#statusTrajetoIda {
+    margin-top: 12px;
+    font-weight: bold;
+}
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -141,7 +188,68 @@
     <div class="caixa">
 
         <h2>Mapa da área de estudo</h2>
+<div class="controle-pesquisa">
 
+    <label for="escolaSelecionada">
+        <strong>1. Selecione a escola da criança:</strong>
+    </label>
+
+    <select id="escolaSelecionada">
+        <option value="">
+            Selecione uma escola
+        </option>
+    </select>
+
+</div>
+
+<div class="controle-trajeto">
+
+    <h3>2. Trajeto de ida — residência → escola</h3>
+
+    <p id="instrucaoTrajeto">
+        Selecione primeiro a escola da criança.
+    </p>
+
+    <button
+        type="button"
+        id="btnIniciarIda"
+    >
+        Iniciar trajeto de ida
+    </button>
+
+    <div class="botoes-trajeto">
+
+        <button
+            type="button"
+            id="btnDesfazerIda"
+            disabled
+        >
+            Desfazer último ponto
+        </button>
+
+        <button
+            type="button"
+            id="btnLimparIda"
+            disabled
+        >
+            Limpar trajeto
+        </button>
+
+        <button
+            type="button"
+            id="btnFinalizarIda"
+            disabled
+        >
+            Finalizar trajeto de ida
+        </button>
+
+    </div>
+
+    <p id="statusTrajetoIda">
+        Nenhum trajeto iniciado.
+    </p>
+
+</div>
         <p>
             Este mapa será utilizado para indicar os trajetos
             realizados entre a residência e a escola.
@@ -383,7 +491,25 @@ const escolasOrdenadas =
     [...escolas].sort(function(a, b) {
         return a.numero - b.numero;
     });
+const selectEscola =
+    document.getElementById("escolaSelecionada");
 
+escolasOrdenadas.forEach(function(escola) {
+
+    const option =
+        document.createElement("option");
+
+    option.value =
+        escola.numero;
+
+    option.textContent =
+        escola.numero +
+        " — " +
+        escola.nome;
+
+    selectEscola.appendChild(option);
+
+});
 escolasOrdenadas.forEach(function(escola) {
 
     const item =
@@ -451,8 +577,219 @@ escolas.forEach(function(escola) {
     marcador.bindPopup(conteudoPopup);
 
     marcador.addTo(grupoEscolas);
+// =====================================================
+// TRAJETO DE IDA
+// =====================================================
+
+let desenhandoIda = false;
+
+let trajetoIdaFinalizado = false;
+
+let pontosIda = [];
+
+let linhaIda = null;
+
+const grupoPontosIda =
+    L.layerGroup().addTo(map);
+});
+    document
+    .getElementById("btnIniciarIda")
+    .addEventListener("click", function() {
+
+        const numeroEscola =
+            Number(selectEscola.value);
+
+        if (!numeroEscola) {
+
+            alert(
+                "Selecione primeiro a escola da criança."
+            );
+
+            return;
+        }
+
+        const escola =
+            escolas.find(function(item) {
+                return item.numero === numeroEscola;
+            });
+
+        desenhandoIda = true;
+        trajetoIdaFinalizado = false;
+
+        pontosIda = [];
+
+        grupoPontosIda.clearLayers();
+
+        if (linhaIda) {
+            map.removeLayer(linhaIda);
+            linhaIda = null;
+        }
+
+        document
+            .getElementById("btnDesfazerIda")
+            .disabled = false;
+
+        document
+            .getElementById("btnLimparIda")
+            .disabled = false;
+
+        document
+            .getElementById("btnFinalizarIda")
+            .disabled = false;
+
+        document
+            .getElementById("statusTrajetoIda")
+            .textContent =
+            "Trajeto em edição. Toque no mapa seguindo as ruas utilizadas.";
+
+        document
+            .getElementById("instrucaoTrajeto")
+            .textContent =
+            "Comece pela residência e toque sucessivamente nas ruas utilizadas até chegar à escola.";
+
+        map.setView(
+            [escola.lat, escola.lng],
+            15
+        );
+
+    });
+    map.on("click", function(evento) {
+
+    if (!desenhandoIda) {
+        return;
+    }
+
+    const ponto = [
+        evento.latlng.lat,
+        evento.latlng.lng
+    ];
+
+    pontosIda.push(ponto);
+
+    L.circleMarker(ponto, {
+        radius: 5
+    }).addTo(grupoPontosIda);
+
+    atualizarLinhaIda();
 
 });
+    function atualizarLinhaIda() {
+
+    if (linhaIda) {
+        map.removeLayer(linhaIda);
+        linhaIda = null;
+    }
+
+    if (pontosIda.length >= 2) {
+
+        linhaIda =
+            L.polyline(
+                pontosIda,
+                {
+                    weight: 5,
+                    opacity: 0.85
+                }
+            ).addTo(map);
+
+    }
+
+    document
+        .getElementById("statusTrajetoIda")
+        .textContent =
+        "Pontos registrados: " +
+        pontosIda.length;
+
+}
+    document
+    .getElementById("btnDesfazerIda")
+    .addEventListener("click", function() {
+
+        if (pontosIda.length === 0) {
+            return;
+        }
+
+        pontosIda.pop();
+
+        grupoPontosIda.clearLayers();
+
+        pontosIda.forEach(function(ponto) {
+
+            L.circleMarker(ponto, {
+                radius: 5
+            }).addTo(grupoPontosIda);
+
+        });
+
+        atualizarLinhaIda();
+
+    });
+    document
+    .getElementById("btnLimparIda")
+    .addEventListener("click", function() {
+
+        const confirmar =
+            confirm(
+                "Deseja apagar todo o trajeto de ida?"
+            );
+
+        if (!confirmar) {
+            return;
+        }
+
+        pontosIda = [];
+
+        grupoPontosIda.clearLayers();
+
+        if (linhaIda) {
+            map.removeLayer(linhaIda);
+            linhaIda = null;
+        }
+
+        document
+            .getElementById("statusTrajetoIda")
+            .textContent =
+            "Trajeto apagado. Toque no mapa para começar novamente.";
+
+    });
+    document
+    .getElementById("btnFinalizarIda")
+    .addEventListener("click", function() {
+
+        if (pontosIda.length < 2) {
+
+            alert(
+                "Marque pelo menos dois pontos antes de finalizar o trajeto."
+            );
+
+            return;
+        }
+
+        desenhandoIda = false;
+        trajetoIdaFinalizado = true;
+
+        document
+            .getElementById("btnDesfazerIda")
+            .disabled = true;
+
+        document
+            .getElementById("btnLimparIda")
+            .disabled = true;
+
+        document
+            .getElementById("btnFinalizarIda")
+            .disabled = true;
+
+        document
+            .getElementById("statusTrajetoIda")
+            .textContent =
+            "Trajeto de ida finalizado com sucesso.";
+
+        document
+            .getElementById("instrucaoTrajeto")
+            .textContent =
+            "Trajeto registrado. Você poderá prosseguir para a próxima etapa.";
+
+    });
     // Mensagem quando os tiles carregarem
     osm.on("load", function () {
 
