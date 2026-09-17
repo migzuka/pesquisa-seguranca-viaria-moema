@@ -645,6 +645,39 @@ button:disabled {
 
 }
 
+  
+/* ==========================================
+   MARCADORES DOS PONTOS DE CONTAGEM
+========================================== */
+
+.marcador-contagem {
+    background: transparent;
+    border: none;
+}
+
+.ponto-contagem {
+    width: 26px;
+    height: 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff7ed;
+    color: #9a3412;
+
+    border: 3px solid #f97316;
+    border-radius: 50%;
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+
+    box-shadow:
+        0 0 0 1px white,
+        0 2px 5px rgba(0, 0, 0, 0.35);
+}
+    
 </style>
 
 </head>
@@ -1581,6 +1614,135 @@ escolas.forEach(
 );
 
 
+/* ============================================================
+   PONTOS DE CONTAGEM DE CARROS E PEDESTRES
+============================================================ */
+
+/*
+ * Coordenadas dos cinco cruzamentos extraídas
+ * dos arquivos KMZ fornecidos.
+ *
+ * Leaflet utiliza:
+ * [latitude, longitude]
+ */
+
+const pontosContagem = [
+
+    {
+        codigo: "C1",
+        nome: "Guaramomis × Aranás",
+        lat: -23.6164120720546,
+        lng: -46.6621732542187
+    },
+
+    {
+        codigo: "C2",
+        nome: "Inhambu × Carajuá",
+        lat: -23.60506476318188,
+        lng: -46.67203041229288
+    },
+
+    {
+        codigo: "C3",
+        nome: "Iraúna × Jauaperi",
+        lat: -23.61030016665505,
+        lng: -46.67223037897354
+    },
+
+    {
+        codigo: "C4",
+        nome: "Jácome × Visconde",
+        lat: -23.59934769936559,
+        lng: -46.66908037301193
+    },
+
+    {
+        codigo: "C5",
+        nome: "Pamaris × Chanés",
+        lat: -23.61271171050297,
+        lng: -46.66922072963621
+    }
+
+];
+
+
+/* Camada independente dos pontos de contagem */
+
+const camadaContagem =
+    L.layerGroup().addTo(map);
+
+
+/* Aparência dos marcadores */
+
+function criarIconeContagem(ponto) {
+
+    return L.divIcon({
+
+        className: "marcador-contagem",
+
+        html:
+            '<div class="ponto-contagem">' +
+            ponto.codigo +
+            '</div>',
+
+        iconSize: [28, 28],
+
+        iconAnchor: [14, 14],
+
+        popupAnchor: [0, -14]
+
+    });
+
+}
+
+
+/* Adiciona os cruzamentos ao mapa */
+
+pontosContagem.forEach(function(ponto) {
+
+    const marcador = L.marker(
+
+        [
+            ponto.lat,
+            ponto.lng
+        ],
+
+        {
+            icon: criarIconeContagem(ponto),
+
+            bubblingMouseEvents: false
+        }
+
+    );
+
+
+    /* Legenda exibida ao tocar no marcador */
+
+    const popup = document.createElement("div");
+
+    const titulo = document.createElement("strong");
+
+    titulo.textContent =
+        ponto.codigo + " — " + ponto.nome;
+
+    popup.appendChild(titulo);
+
+    popup.appendChild(
+        document.createElement("br")
+    );
+
+    popup.appendChild(
+        document.createTextNode(
+            "Ponto de contagem de carros e pedestres"
+        )
+    );
+
+
+    marcador.bindPopup(popup);
+
+    marcador.addTo(camadaContagem);
+
+});
 
 /* ============================================================
    ESCOLA SELECIONADA
